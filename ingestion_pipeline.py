@@ -36,7 +36,7 @@ def load_documents(docs_path="/Users/mdsalique/Desktop/RAG_begins/docs"):
 
     return documents
 
-    def split_documents(documents,chunk_size=800, chunk_overlap=0):
+def split_documents(documents,chunk_size=800, chunk_overlap=0):
     """split doc into smaller chunks with overlap"""
     print("Splitting documents into chunks...")
 
