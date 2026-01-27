@@ -1,15 +1,15 @@
-# Virtual environment
-venv/
-.env
-
-# Python cache
+# Python
 __pycache__/
 *.pyc
 
-# OS files
-.DS_Store
+# Virtual env
+venv/
 
-# Vector stores / local data
-chroma_db/
-faiss_index/
-docs/
+# Environment variables
+.env
+
+# Vector database
+chroma_store/
+
+# OS
+.DS_Store

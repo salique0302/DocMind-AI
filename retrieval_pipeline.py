@@ -1,44 +1,37 @@
-from dotenv import load_dotenv
-from langchain_community.vectorstores import Chroma
-from embeddings.gemini import GeminiEmbeddings
+from langchain_chroma import Chroma
+from embeddings.local_embedding import LocalEmbedding
+from answer_generation import generate_answer
 
-load_dotenv()
-
-PERSIST_DIRECTORY = "db/chroma_db"
+PERSIST_DIR = "chroma_store"
 
 
-def load_vector_store():
-    print("Loading Chroma vector store...")
-
-    embedding_model = GeminiEmbeddings()
+def query_rag(query: str, k: int = 3):
+    embedding = LocalEmbedding()
 
     db = Chroma(
-        persist_directory=PERSIST_DIRECTORY,
-        embedding_function=embedding_model,
-        collection_metadata={"hnsw:space": "cosine"},
+        persist_directory=PERSIST_DIR,
+        embedding_function=embedding
     )
 
-    print("Vector store loaded successfully")
-    return db
+    retriever = db.as_retriever(
+        search_type="similarity",
+        search_kwargs={"k": k}
+    )
 
+    docs = retriever.invoke(query)
 
-def run_query(query, k=5):
-    db = load_vector_store()
+    # Extract text for LLM
+    contexts = [doc.page_content for doc in docs]
 
-    retriever = db.as_retriever(search_kwargs={"k": k})
+    answer = generate_answer(query, contexts)
 
-    print(f"\nUser Query: {query}")
-    print("\n--- Retrieved Context ---")
+    print("\n📚 Retrieved Sources:")
+    for i, doc in enumerate(docs, 1):
+        print(f"[{i}] {doc.metadata.get('source')}")
 
-    relevant_docs = retriever.invoke(query)
-
-    for i, doc in enumerate(relevant_docs, 1):
-        print(f"\nDocument {i}:")
-        print(f"Source: {doc.metadata.get('source')}")
-        print(doc.page_content)
-        print("-" * 60)
+    print("\n🤖 Answer:")
+    print(answer)
 
 
 if __name__ == "__main__":
-    query = "How much did Microsoft pay to acquire GitHub?"
-    run_query(query)
+    query_rag("How much did Microsoft pay to acquire GitHub?")
