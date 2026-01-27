@@ -162,18 +162,11 @@ intentionally isolated.
 
 ## Scalability Considerations
 
-  -----------------------------------------------------------------------
-  Component                          Current Capability
-  ---------------------------------- ------------------------------------
-  Local embeddings                   Up to hundreds of thousands of
-                                     chunks (CPU)
-
-  ChromaDB                           Efficient retrieval up to \~1M
-                                     vectors (single node)
-
-  Concurrency                        Single-process (scalable with
-                                     async/multi-worker setup)
-  -----------------------------------------------------------------------
+| Component        | Current Capability |
+|------------------|--------------------|
+| Local embeddings | Up to hundreds of thousands of chunks (CPU) |
+| ChromaDB         | Efficient retrieval up to ~1M vectors (single node) |
+| Concurrency      | Single-process (scalable with async / multi-worker setup) |
 
 ### Future Scaling Paths
 
