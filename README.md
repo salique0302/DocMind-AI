@@ -209,7 +209,3 @@ failed approaches, architectural pivots, and reliability trade-offs.
 
 The focus is on **clarity, correctness, and evolvability**, rather than
 premature scaling.
-
-## License
-
-MIT License
