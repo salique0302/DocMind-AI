@@ -2,8 +2,10 @@ import os
 from pydoc import doc
 from langchain_community.document_loaders import TextLoader,DirectoryLoader
 from langchain_text_splitters import CharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from embeddings.gemini import GeminiEmbeddings
 from dotenv import load_dotenv
+from langchain_community.vectorstores import Chroma
+
 
 load_dotenv()
 
@@ -49,7 +51,7 @@ def split_documents(documents,chunk_size=800, chunk_overlap=0):
 
     if chunks:
         for i, chunk in enumerate(chunks[:5]):
-            print(f"/n--- Chunk{i+1} ---")
+            print(f"\n--- Chunk{i+1} ---")
             print(f"Source: {chunk.metadata['source']}")
             print(f"Length {len(chunk.page_content)} characters")
             print(chunk.page_content)
@@ -59,6 +61,24 @@ def split_documents(documents,chunk_size=800, chunk_overlap=0):
             print(f"\n... and{len(chunks)-5} more chunks")
     return chunks
 
+def create_vector_store(chunks, persist_directory="db/chroma_db"):
+    """Create and persist ChromaDB vector store"""
+    print("Creating embeddings and storing in ChromaDB...")
+        
+    embedding_model = GeminiEmbeddings()
+    
+    # Create ChromaDB vector store
+    print("--- Creating vector store ---")
+    vectorstore = Chroma.from_documents(
+        documents=chunks,
+        embedding=embedding_model,
+        persist_directory=persist_directory, 
+        collection_metadata={"hnsw:space": "cosine"}
+    )
+    print("--- Finished creating vector store ---")
+    
+    print(f"Vector store created and saved to {persist_directory}")
+    return vectorstore
 
 
 def main():
@@ -69,6 +89,9 @@ def main():
 
     # 2. Split into chunks
     chunks = split_documents(documents)
+
+    # Step 3: Create vector store
+    vectorstore = create_vector_store(chunks)
 
 
 if __name__ == "__main__":
