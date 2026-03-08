@@ -188,8 +188,4 @@ intentionally isolated.
 -   Reduced operational complexity
 -   Clear separation of concerns
 
-## Disclaimer
-
-This project is intended as a **learning and demonstration system**.\
-While the architecture mirrors production-grade patterns, it is **not
-deployed as a live service**.
+////////////////////////////////////////////////////////////
