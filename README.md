@@ -2,17 +2,9 @@
 
 ## Overview
 
-This project implements a **Retrieval-Augmented Generation (RAG)**
-system with a strong emphasis on **reliability, modularity, and
-Scalable design principles**.
-
-The system cleanly separates **ingestion**, **retrieval**, and **answer
-generation**, uses **local embeddings** to avoid fragile API
-dependencies, and integrates a cloud LLM **only for answer generation**.
-
-The goal of this project is not just functional correctness, but to
-demonstrate **real-world system design thinking**, including
-architectural trade-offs, failure modes, and scalability considerations.
+DocMind is an end-to-end RAG system that lets you query any document collection 
+using natural language. Built with local embeddings (MiniLM), ChromaDB, and Gemini 
+for answer generation — fully modular and production-architecture inspired..
 
 ## Key Features
 
@@ -201,11 +193,3 @@ intentionally isolated.
 This project is intended as a **learning and demonstration system**.\
 While the architecture mirrors production-grade patterns, it is **not
 deployed as a live service**.
-
-## Author Notes
-
-This project reflects **real-world engineering decisions**, including
-failed approaches, architectural pivots, and reliability trade-offs.
-
-The focus is on **clarity, correctness, and evolvability**, rather than
-premature scaling.
